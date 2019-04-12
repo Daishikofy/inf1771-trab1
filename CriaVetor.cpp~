@@ -9,49 +9,38 @@
 using namespace std;
 
 
-struct Client{
+typedef  struct client{
 	int id;
 	int x;
 	int y;
 	int demand;
-};
+}Client;
 
-vector<Client> ReadFile(string filePath, int& capacity);
+void ReadFile(string filePath);
 Client fillClient (string line);
 void printClient (Client client);
 
 int main ()
 {
-	vector<Client> clients;
-	int capacity;
-	
-	clients = ReadFile("text.txt", capacity);
-	
-	cout << capacity << endl;
-	/*
-	for (int i = 0; i<clients.size(); i++)
-	{
-		printClient(clients[i]);
-	}*/
-	
+	ReadFile("text.txt");
 	return 0;
 }
 
-vector<Client> ReadFile(string filePath, int& capacity)
+void ReadFile(string filePath)
 {
 	
 	string line;
-	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false;
+	bool NODE_COORD_SECTION, DEMAND_SECTION;
 	int tam;
 	int i = 0;
 	vector<Client> clients;
 	
-	ifstream file (filePath);
+	ifstream file (PATH);
 	
 	if (! file.is_open ())
 	{
 		cout << "Couldn't open de file\n";
-		return clients;
+		return;
 	}
 	
 	while ( getline (file, line))
@@ -65,8 +54,8 @@ vector<Client> ReadFile(string filePath, int& capacity)
 		
 		else if (line.find("CAPACITY") != string::npos)
 		{
-			capacity = stoi( line.substr(12,15) );
-			cout << "CAMINHAO TEM CAPACIDADE DE " << capacity << endl;
+			int p = stoi( line.substr(13,15) );
+			cout << "CAMINHAO TEM CAPACIDADE DE " << p << endl;
 		}
 		
 		else if (line.find("NODE_COORD_SECTION") != string::npos)
@@ -96,11 +85,9 @@ vector<Client> ReadFile(string filePath, int& capacity)
 		{		
 			cout << i <<" ARMAZENA CAPACIDADE" << endl;
 			
-			stringstream lineStream(line);
-			lineStream >> clients[i].id >> clients[i].demand;
+			//stringstream lineStream(line);
 			
-			printClient(clients[i]);
-					
+			
 			i++;
 			if (i>=tam)
 			{
@@ -110,8 +97,8 @@ vector<Client> ReadFile(string filePath, int& capacity)
 		}
 	}
 	
-	file.close();
-	return clients;	
+	
+	file.close();	
 }
 
 Client fillClient (string line)
@@ -126,7 +113,7 @@ Client fillClient (string line)
 
 void printClient (Client client)
 {
-	cout << client.id << " " << client.x << " " << client.y << " " << client.demand << endl;
+	cout << client.id << " " << client.x << " " << client.id << endl;
 }
 
 
