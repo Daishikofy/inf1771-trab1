@@ -17,7 +17,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 	if (! file.is_open ())
 	{
 		std::cout << "Couldn't open de file\n";
-		return clients;
+		return;
 	}
 
 	while ( getline (file, line))
@@ -77,7 +77,6 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 	}
 
 	file.close();
-	return clients;
 }//End of function ReadFile
 
 

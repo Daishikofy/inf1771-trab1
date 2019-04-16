@@ -7,13 +7,13 @@ struct Client
 	int x;
 	int y;
 	int demand;
-}
+};
 
 class DataArray 
 {
 public:
-	ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath );
+	void ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath );
 private:
-	FillClient (std::string line);
-	PrintClient (Client client);
+	Client FillClient (std::string line);
+	void PrintClient (Client client);
 }; 
