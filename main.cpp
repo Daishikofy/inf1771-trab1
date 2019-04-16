@@ -12,6 +12,7 @@ int main ()
 	dataArray.ReadFile(clients, capacity, nTrucks, "text.txt");
 
 	std::cout << capacity << "\n";
+	std::cout << nTrucks << "\n";
 	/*
 	for (int i = 0; i<clients.size(); i++)
 	{

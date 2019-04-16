@@ -5,10 +5,10 @@
 
 
 
-void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath )
+void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTrucks, std::string filePath )
 {
 	std::string line;
-	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false;
+	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false, isFirst = true;
 	int tam;
 	int i = 0;
 
@@ -22,17 +22,23 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 
 	while ( getline (file, line))
 	{
+		if (isFirst) 
+		{//Recupera numero de caminhoes
+			int index = line.find("k") + 1;
+			nTrucks = std::stoi( line.substr(index,line.size()) );
+			isFirst = false;
+		}
 
-		if (line.find("DIMENSION") != std::string::npos)
-		{
-			tam = std::stoi( line.substr(13,15) );
-			std::cout << "CRIE UM VETOR DE " << tam << " DIMENSOES" << "\n";
+		else if (line.find("DIMENSION") != std::string::npos)
+		{//Recupera numero de cliente + deposito
+			int index = line.find(":") + 1;
+			tam = std::stoi( line.substr(index,line.size()) );
 		}
 
 		else if (line.find("CAPACITY") != std::string::npos)
-		{
-			capacity = stoi( line.substr(12,15) );
-			std::cout << "CAMINHAO TEM CAPACIDADE DE " << capacity << "\n";
+		{//Recupera capacidade do caminhao
+			int index = line.find(":") + 1;
+			capacity = stoi( line.substr(index,line.size()) );
 		}
 
 		else if (line.find("NODE_COORD_SECTION") != std::string::npos)
@@ -41,8 +47,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 		}
 
 		else if (NODE_COORD_SECTION)
-		{
-			std::cout << i << " ARMAZENA COORDENADAS" << "\n";
+		{//Armazena as coordenadas dos clientes
 			clients.push_back( FillClient(line) );
 
 			i++;
@@ -59,9 +64,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 		}
 
 		else if ( DEMAND_SECTION )
-		{
-			std::cout << i <<" ARMAZENA CAPACIDADE" << "\n";
-
+		{//Armazena a demenda dos clientes
 			std::stringstream lineStream(line);
 			lineStream >> clients[i].id >> clients[i].demand;
 
@@ -77,6 +80,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 	}
 
 	file.close();
+	
 }//End of function ReadFile
 
 

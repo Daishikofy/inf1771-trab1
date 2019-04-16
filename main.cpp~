@@ -9,7 +9,7 @@ int main ()
 	int capacity, nTrucks;
 	DataArray dataArray;
 
-	clients = dataArray.ReadFile(clients, capacity, nTrucks, "text.txt");
+	dataArray.ReadFile(clients, capacity, nTrucks, "text.txt");
 
 	std::cout << capacity << "\n";
 	/*

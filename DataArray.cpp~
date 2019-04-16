@@ -5,10 +5,10 @@
 
 
 
-void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath )
+void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTrucks, std::string filePath )
 {
 	std::string line;
-	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false;
+	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false, isFirst = true;
 	int tam;
 	int i = 0;
 
@@ -17,21 +17,29 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTuc
 	if (! file.is_open ())
 	{
 		std::cout << "Couldn't open de file\n";
-		return clients;
+		return;
 	}
 
 	while ( getline (file, line))
 	{
-
-		if (line.find("DIMENSION") != std::string::npos)
+		if (isFirst)
 		{
-			tam = std::stoi( line.substr(13,15) );
+			int index = line.find("k") + 1;
+			nTrucks = std::stoi( line.substr(index,line.size()) );
+			isFirst = false;
+		}
+
+		else if (line.find("DIMENSION") != std::string::npos)
+		{
+			int index = line.find(":") + 1;
+			tam = std::stoi( line.substr(index,line.size()) );
 			std::cout << "CRIE UM VETOR DE " << tam << " DIMENSOES" << "\n";
 		}
 
 		else if (line.find("CAPACITY") != std::string::npos)
 		{
-			capacity = stoi( line.substr(12,15) );
+			int index = line.find(":") + 1;
+			capacity = stoi( line.substr(index,line.size()) );
 			std::cout << "CAMINHAO TEM CAPACIDADE DE " << capacity << "\n";
 		}
 
