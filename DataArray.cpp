@@ -5,13 +5,12 @@
 
 
 
-std::vector<Client> DataArray::ReadFile (std::string filePath, int& capacity)
+void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath )
 {
 	std::string line;
 	bool NODE_COORD_SECTION = false, DEMAND_SECTION = false;
 	int tam;
 	int i = 0;
-	std::vector<Client> clients;
 
 	std::ifstream file (filePath);
 

@@ -6,10 +6,10 @@
 int main ()
 {
 	std::vector<Client> clients;
-	int capacity, nTrucks;
+	int capacity;
 	DataArray dataArray;
 
-	clients = dataArray.ReadFile(clients, capacity, nTruks, "text.txt");
+	clients = dataArray.ReadFile("text.txt", capacity);
 
 	std::cout << capacity << "\n";
 	/*
