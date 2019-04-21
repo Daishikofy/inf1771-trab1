@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <string>
 
@@ -7,6 +8,7 @@ struct Client
 	int x;
 	int y;
 	int demand;
+
 };
 
 class DataArray 

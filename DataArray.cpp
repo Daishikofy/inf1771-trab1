@@ -3,8 +3,6 @@
 #include <sstream>
 #include "DataArray.h"
 
-
-
 void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTrucks, std::string filePath )
 {
 	std::string line;
@@ -68,8 +66,6 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTru
 			std::stringstream lineStream(line);
 			lineStream >> clients[i].id >> clients[i].demand;
 
-			DataArray::PrintClient(clients[i]);
-
 			i++;
 			if (i>=tam)
 			{
@@ -80,7 +76,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTru
 	}
 
 	file.close();
-	
+	static Client centralDepot = clients[0];
 }//End of function ReadFile
 
 
