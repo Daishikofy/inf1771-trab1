@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "Route.h"
+#include "Solution.h"
+#include "DataArray.h"
 
 
 int main ()
@@ -19,18 +21,40 @@ int main ()
 	for (int i!m = 0; i<clients.size(); i++)
 	{
 		DataArray::PrintClient(clients[i]);
-	}*/
-	
+	}
 	RouteArray route;
-
-	route.AddRoute(clients[0]);
+	RouteArray* routePtr;
+	routePtr = &route;
+	routePtr->AddRoute(clients[1]);
+	routePtr->AddRoute(clients[2]);
+	
 	route.AddRoute(clients[1]);
 	route.AddRoute(clients[2]);
+	*/
+	
 
-	int t = route.GetTotalDemand();
+	Solution solution;
+	std::vector<Client> aux;
 
-	std::cout << t << "\n";
-
+	aux.push_back(clients[0]);
+	aux.push_back(clients[1]);
+	aux.push_back(clients[2]);
+	aux.push_back(clients[3]);
+	aux.push_back(clients[4]);
+	//A TIRAR Ntruck = 1
+	
+	solution.CreateSolution (3, clients[0]);
+	std::cout << "route array size main: " << solution.solution[0].routeArray->routeArray.size() << "\n";
+	solution.FillSolution(aux,capacity);
+	solution.PrintSolution();
+	/*
+	//TORCAR  REFERENCIA POR PONTEIRO PARA REFENCIA POR REFERENCIA
+	solution.solution[0].routeArray->AddRoute(clients[1]);
+	solution.solution[0].routeArray->AddRoute(clients[2]);
+	//solution.FillSolution(clients,capacity);
+	*/
+	
+	
 	return 0;
 }
 

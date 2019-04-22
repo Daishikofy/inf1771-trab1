@@ -16,10 +16,11 @@ public:
     std::vector<Route> routeArray;
 	int GetTotalDemand ();
     void AddRoute (Client& client);
+	void PrintRoute ();
 
 private:
 	int totalDemand;
 
 	int RouteWeight (Client& A, Client& B);
-	void PrintRoute (Route& route);
+	
 };

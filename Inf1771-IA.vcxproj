@@ -71,10 +71,12 @@
     <ClCompile Include="DataArray.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Route.cpp" />
+    <ClCompile Include="Solution.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataArray.h" />
     <ClInclude Include="Route.h" />
+    <ClInclude Include="Solution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

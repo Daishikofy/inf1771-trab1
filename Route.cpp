@@ -8,14 +8,15 @@ void RouteArray::AddRoute (Client& client)
 	
 	if (routeArray.size() == 0)	
 	{
-		route->weight = 0;
+ 		route->weight = 0;
 		totalDemand = client.demand;
 	}
 	else
 	{
 		totalDemand += client.demand;
 		int lastElement = routeArray.size() - 1;
-		routeArray[lastElement].weight = RouteArray::RouteWeight (routeArray[lastElement].client, client);
+		routeArray.back().weight = 19071999;
+			//RouteArray::RouteWeight (routeArray[lastElement].client, client);
 		route->weight = RouteArray::RouteWeight (client, routeArray[0].client);
 	}
     routeArray.push_back(*route);
@@ -33,8 +34,9 @@ int RouteArray::GetTotalDemand ()
 	return totalDemand;
 }
 
-void RouteArray::PrintRoute (Route& route)
+void RouteArray::PrintRoute ()
 {
-	std::cout << route.client.demand << " " << route.weight << "\n";
+	for (int i = 0; i<routeArray.size(); i ++)
+		std::cout << i << ": " << routeArray[i].client.id << "\n";
 }//End of funtion PrintRoute
 
