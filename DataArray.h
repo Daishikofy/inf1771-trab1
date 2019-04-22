@@ -23,7 +23,7 @@ public:
 	**/
 	void ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath );
 	
-private:
+// private:
 	Client FillClient (std::string line);
 	void PrintClient (Client client);
 }; 

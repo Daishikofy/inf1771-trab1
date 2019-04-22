@@ -4,22 +4,23 @@
 
 #include "Route.h"
 
+using namespace std;
 
 int main ()
 {
 	std::vector<Client> clients;
 	int capacity, nTrucks;
-	DataArray dataArray;
+	DataArray * dataArray = new DataArray();
 
-	dataArray.ReadFile(clients, capacity, nTrucks, "text.txt");
+	dataArray->ReadFile(clients, capacity, nTrucks, "text.txt");
 
 	std::cout << capacity << "\n";
 	std::cout << nTrucks << "\n";
-	/*
-	for (int i!m = 0; i<clients.size(); i++)
+	
+	for (int i = 0; i < clients.size(); i++)
 	{
-		DataArray::PrintClient(clients[i]);
-	}*/
+		dataArray->PrintClient(clients[i]);
+	}
 	
 	RouteArray route;
 
@@ -31,6 +32,7 @@ int main ()
 
 	std::cout << t << "\n";
 
+	cout << "Tamanho da Rota: " << clients.size() << endl;
 	return 0;
 }
 
