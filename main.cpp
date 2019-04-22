@@ -33,7 +33,7 @@ int main ()
 	*/
 	
 
-	Solution solution;
+	Solution* solution = new Solution;
 	std::vector<Client> aux;
 
 	aux.push_back(clients[0]);
@@ -43,10 +43,11 @@ int main ()
 	aux.push_back(clients[4]);
 	//A TIRAR Ntruck = 1
 	
-	solution.CreateSolution (3, clients[0]);
-	std::cout << "route array size main: " << solution.solution[0].routeArray->routeArray.size() << "\n";
-	solution.FillSolution(aux,capacity);
-	solution.PrintSolution();
+	solution->CreateSolution (nTrucks, clients[0]);
+	std::cout << "route array size main: " << solution->solution[0].routeArray.routeArray.size() << "\n";
+	solution->FillSolution(clients,1000);
+	std::cout << "route array size main: " << solution->solution[0].routeArray.routeArray.size() << "\n";
+	solution->PrintSolution();
 	/*
 	//TORCAR  REFERENCIA POR PONTEIRO PARA REFENCIA POR REFERENCIA
 	solution.solution[0].routeArray->AddRoute(clients[1]);

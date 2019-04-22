@@ -5,9 +5,9 @@
 struct Truck
 {
   int totalDemand;
-  RouteArray* routeArray;
+  RouteArray& routeArray;
 
-  //Truck::Truck(RouteArray& routeArray) : routeArray(routeArray) { }
+  Truck(RouteArray& routeArray) : routeArray(routeArray) { }
 };
 
 class Solution {

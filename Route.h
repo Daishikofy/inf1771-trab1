@@ -7,7 +7,7 @@ struct Route
   int weight; //Peso entre este elemento e o prox da lista
   Client& client;
   
-  Route::Route(Client& client) : client(client) { }
+  Route(Client& client) : client(client) { }
 };
 
 class RouteArray
