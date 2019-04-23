@@ -3,22 +3,14 @@
 
 
 
-void Solution::CreateSolution(int nTrucks, Client& centralDepot)
+void Solution::CreateSolution(Client& centralDepot)
 {
-	nTruck = nTrucks;
-  for (int i = 0; i < nTrucks; i++)
-  {
-	
     RouteArray* routeArray = new RouteArray;
 	routeArray->AddRoute(centralDepot);
 
 	Truck* truck = new Truck (*routeArray);
-	std::cout << "route array size: " << truck->routeArray.routeArray.size() << "\n"; 
 	truck->totalDemand = 0;
-
     solution.push_back(*truck);
-	std::cout << "route array truck size: " << solution[i].routeArray.routeArray.size() << "\n";
-  }
 
   return;
 }
@@ -26,43 +18,55 @@ void Solution::CreateSolution(int nTrucks, Client& centralDepot)
 
 void Solution::FillSolution (std::vector<Client>& clients, int capacity)
 {
-  
-  //Enchendo em largura
-  for (int i = 1, truck = 0; i < clients.size(); truck ++)
-  {
-	std::cout << "route array : " << i << " truck " << truck << "\n";
-    truck = truck % nTruck; //Se Truck > nTruck, Truck = Truck - nTruck
-	int auxTotalDemand = clients[i].demand + solution[truck].totalDemand;
-	std::cout << "total demand " << auxTotalDemand << "\n";
-    if ( auxTotalDemand <= capacity)
+	CreateSolution(clients[0]);
+	int truck = 0;
+
+	for (int i = 1; i < clients.size() ; i ++)
 	{
-		solution[truck].routeArray.AddRoute(clients[i]);
-		solution[truck].totalDemand = auxTotalDemand;
-		i++;
-	}
-  }
-/*
-	//Enchendo em altura
-	int truck;
-	for (int i = 1, truck = 0; i < clients.size() ; i ++)
-  {
-	std::cout << "route array : " << i << " truck " << truck << "\n";
-	truck = truck % nTruck; //Se Truck > nTruck, Truck = Truck - nTruck
-	int auxTotalDemand = clients[i].demand + solution[truck].totalDemand;
-	int diff = auxTotalDemand - capacity;
-	std::cout << "difference " << diff  << "\n";
-    if ( auxTotalDemand <= capacity)
-	{
-		solution[truck].routeArray.AddRoute(clients[i]);
-		solution[truck].totalDemand = auxTotalDemand;	
-	}
-	else
-	{
-		truck++;
-		i--;
-	}
-  }*/
+		int succesInsert = InsertClient (clients[i], capacity, truck);
+		if (!succesInsert)
+		{
+			int insertOtherRoute = TestAllRoutes(clients[i], capacity);
+			if(!insertOtherRoute)
+			{
+				CreateSolution(clients[0]);
+				truck++;
+				int succesInsert = InsertClient (clients[i], capacity, truck);
+				if (!succesInsert)
+					std::cout << "Demenda do client " << clients[i].id << " maior do que a capacidade total de um caminhao\n";
+			}
+		}
+	} 
 }
+
+
+int Solution::InsertClient(Client& client, int capacity, int indexTruck)
+{
+	int auxTotalDemand = client.demand + solution[indexTruck].totalDemand;
+    if ( auxTotalDemand <= capacity)
+	{
+		solution[indexTruck].routeArray.AddRoute(client);
+		solution[indexTruck].totalDemand = auxTotalDemand;
+		return 1;
+	}
+	return 0;
+}
+
+int Solution::TestAllRoutes(Client& client, int capacity)
+{
+	for (int i = 0; i < solution.size(); i++)
+	{
+		int auxTotalDemand = client.demand + solution[i].totalDemand;
+		if ( auxTotalDemand <= capacity)
+		{
+			solution[i].routeArray.AddRoute(client);
+			solution[i].totalDemand = auxTotalDemand;
+			return 1;
+		}
+	}
+	return 0;
+}
+
 
 void Solution::PrintSolution ()
 {
@@ -72,3 +76,4 @@ void Solution::PrintSolution ()
 		solution[i].routeArray.PrintRoute();
 	}
 }
+
