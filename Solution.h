@@ -16,7 +16,7 @@ public:
 	int nTruck;
 
 	void CreateSolution(int nTrucks, Client& centralDepot);
-	void FillSolution (std::vector<Client> clients, int capacity);
+	void FillSolution (std::vector<Client>& clients, int capacity);
 	void PrintSolution ();
 private:
 

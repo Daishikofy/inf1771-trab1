@@ -43,11 +43,18 @@ int main ()
 	aux.push_back(clients[4]);
 	//A TIRAR Ntruck = 1
 	
-	solution->CreateSolution (nTrucks, clients[0]);
-	std::cout << "route array size main: " << solution->solution[0].routeArray.routeArray.size() << "\n";
-	solution->FillSolution(clients,1000);
-	std::cout << "route array size main: " << solution->solution[0].routeArray.routeArray.size() << "\n";
-	solution->PrintSolution();
+	nTrucks +=1;
+
+	solution->CreateSolution (4, clients[0]);
+	int soma = 0;
+	for (int i = 0; i<clients.size(); i++)
+	{
+		soma+=clients[i].demand;
+	}
+	std::cout << "SOMA: " << soma << "\n";
+		 
+	//solution->FillSolution(aux,58);
+	//solution->PrintSolution();
 	/*
 	//TORCAR  REFERENCIA POR PONTEIRO PARA REFENCIA POR REFERENCIA
 	solution.solution[0].routeArray->AddRoute(clients[1]);

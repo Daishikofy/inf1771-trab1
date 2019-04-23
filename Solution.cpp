@@ -24,10 +24,10 @@ void Solution::CreateSolution(int nTrucks, Client& centralDepot)
 }
 
 
-void Solution::FillSolution (std::vector<Client> clients, int capacity)
+void Solution::FillSolution (std::vector<Client>& clients, int capacity)
 {
-  int truck = 0;
-
+  
+  //Enchendo em largura
   for (int i = 1, truck = 0; i < clients.size(); truck ++)
   {
 	std::cout << "route array : " << i << " truck " << truck << "\n";
@@ -41,6 +41,27 @@ void Solution::FillSolution (std::vector<Client> clients, int capacity)
 		i++;
 	}
   }
+/*
+	//Enchendo em altura
+	int truck;
+	for (int i = 1, truck = 0; i < clients.size() ; i ++)
+  {
+	std::cout << "route array : " << i << " truck " << truck << "\n";
+	truck = truck % nTruck; //Se Truck > nTruck, Truck = Truck - nTruck
+	int auxTotalDemand = clients[i].demand + solution[truck].totalDemand;
+	int diff = auxTotalDemand - capacity;
+	std::cout << "difference " << diff  << "\n";
+    if ( auxTotalDemand <= capacity)
+	{
+		solution[truck].routeArray.AddRoute(clients[i]);
+		solution[truck].totalDemand = auxTotalDemand;	
+	}
+	else
+	{
+		truck++;
+		i--;
+	}
+  }*/
 }
 
 void Solution::PrintSolution ()
