@@ -23,7 +23,9 @@ public:
 	**/
 	void ReadFile (std::vector<Client>& clients, int& capacity, int& nTucks, std::string filePath );
 
+	void PrintClient (Client client);
+  
 private:
 	Client FillClient (std::string line);
-	void PrintClient (Client client);
+	
 };
