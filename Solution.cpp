@@ -10,6 +10,7 @@ void Solution::CreateSolution(Client& centralDepot)
 
 	Truck* truck = new Truck (*routeArray);
 	truck->totalDemand = 0;
+	truck->routeWeight = 0;
     solution.push_back(*truck);
 
   return;
@@ -37,6 +38,11 @@ void Solution::FillSolution (std::vector<Client>& clients, int capacity)
 			}
 		}
 	} 
+
+	for (int i = 0; i < solution.size(); i++)
+	{
+		solution[i].routeWeight = solution[i].routeArray.GetTotalWeight();
+	}
 }
 
 
@@ -72,7 +78,8 @@ void Solution::PrintSolution ()
 {
 	for (int i = 0 ; i < solution.size(); i++)
 	{
-		std::cout << "CAMION N " << i << "\n";
+		int n = i + 1;
+		std::cout << "CAMION N " << n << " - " << solution[i].routeWeight << " km\n";
 		solution[i].routeArray.PrintRoute();
 	}
 }

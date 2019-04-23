@@ -5,6 +5,7 @@
 struct Truck
 {
   int totalDemand;
+  int routeWeight;
   RouteArray& routeArray;
 
   Truck(RouteArray& routeArray) : routeArray(routeArray) { }

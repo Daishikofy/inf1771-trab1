@@ -14,13 +14,12 @@ class RouteArray
 {
 public:
     std::vector<Route> routeArray;
-	int GetTotalDemand ();
+	int GetTotalWeight ();
     void AddRoute (Client& client);
 	void PrintRoute ();
 
 private:
-	int totalDemand;
-
+	int totalWeight;
 	int RouteWeight (Client& A, Client& B);
 	
 };

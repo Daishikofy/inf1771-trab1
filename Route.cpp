@@ -9,15 +9,15 @@ void RouteArray::AddRoute (Client& client)
 	if (routeArray.size() == 0)	
 	{
  		route->weight = 0;
-		totalDemand = client.demand;
+		totalWeight = 0;
 	}
 	else
 	{
-		totalDemand += client.demand;
 		int lastElement = routeArray.size() - 1;
 		int weightAux = RouteArray::RouteWeight (routeArray[lastElement].client, client);
 		routeArray[lastElement].weight = weightAux;
 		route->weight = RouteArray::RouteWeight (client, routeArray[0].client);
+		totalWeight += route->weight;
 	}
 
     routeArray.push_back(*route);
@@ -31,9 +31,9 @@ int RouteArray::RouteWeight (Client& A, Client& B)
 
 }//End of function RouteWeight
 
-int RouteArray::GetTotalDemand ()
+int RouteArray::GetTotalWeight ()
 {
-	return totalDemand;
+	return totalWeight;
 }
 
 void RouteArray::PrintRoute ()
