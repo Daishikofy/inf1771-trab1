@@ -18,7 +18,7 @@ int main ()
 
 	Solution* solution = new Solution;
 	 
-	solution->FillSolution(clients,capacity);
+	solution->CreateSolution(clients,capacity);
 	solution->PrintSolution();
 	
 	return 0;
