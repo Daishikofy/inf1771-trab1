@@ -19,7 +19,7 @@ void Solution::InicializeSolution(Client& centralDepot)
 
 void Solution::CreateSolution (std::vector<Client>& clients, int capacity)
 {
-	IicializeSolution(clients[0]);
+	InicializeSolution(clients[0]);
 	int truck = 0;
 
 	for (int i = 1; i < clients.size() ; i ++)
@@ -30,7 +30,7 @@ void Solution::CreateSolution (std::vector<Client>& clients, int capacity)
 			int insertOtherRoute = TestAllRoutes(clients[i], capacity);
 			if(!insertOtherRoute)
 			{
-				CreateSolution(clients[0]);
+				InicializeSolution(clients[0]);
 				truck++;
 				int succesInsert = InsertClient (clients[i], capacity, truck);
 				if (!succesInsert)
