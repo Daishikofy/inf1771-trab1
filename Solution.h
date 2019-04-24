@@ -16,8 +16,8 @@ public:
 	std::vector<Truck> solution;
 	int nTruck;
 
-	void CreateSolution(Client& centralDepot);
-	void FillSolution (std::vector<Client>& clients, int capacity);
+	void InicializeSolution(Client& centralDepot);
+	void CreateSolution (std::vector<Client>& clients, int capacity);
 	int Solution::InsertClient(Client& client, int capacity, int indexTruck);
 	int TestAllRoutes(Client& client, int capacity);
 	void PrintSolution ();
