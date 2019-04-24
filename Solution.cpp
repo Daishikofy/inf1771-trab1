@@ -73,6 +73,15 @@ int Solution::TestAllRoutes(Client& client, int capacity)
 	return 0;
 }
 
+void Solution::CreateNeighbor (int seed)
+{
+	srand(seed);
+	//Escolhe uma rota aleatoria
+	//Remove um cliente aleatorio desta rota
+	//Escolhe uma rota aleatoria
+	//Insere o cliente aleatoriamente nesta rota
+}
+
 
 void Solution::PrintSolution ()
 {

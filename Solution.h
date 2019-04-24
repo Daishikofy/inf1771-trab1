@@ -20,6 +20,7 @@ public:
 	void CreateSolution (std::vector<Client>& clients, int capacity);
 	int InsertClient(Client& client, int capacity, int indexTruck);
 	int TestAllRoutes(Client& client, int capacity);
+	void CreateNeighbor (int seed)
 	void PrintSolution ();
 private:
 
