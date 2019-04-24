@@ -3,7 +3,7 @@
 
 
 
-void Solution::CreateSolution(Client& centralDepot)
+void Solution::InicializeSolution(Client& centralDepot)
 {
     RouteArray* routeArray = new RouteArray;
 	routeArray->AddRoute(centralDepot);
@@ -17,9 +17,9 @@ void Solution::CreateSolution(Client& centralDepot)
 }
 
 
-void Solution::FillSolution (std::vector<Client>& clients, int capacity)
+void Solution::CreateSolution (std::vector<Client>& clients, int capacity)
 {
-	CreateSolution(clients[0]);
+	IicializeSolution(clients[0]);
 	int truck = 0;
 
 	for (int i = 1; i < clients.size() ; i ++)
