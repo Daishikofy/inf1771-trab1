@@ -76,11 +76,19 @@ int Solution::TestAllRoutes(Client& client, int capacity)
 void Solution::CreateNeighbor (int seed)
 {
 	srand(seed);
+	
+	int indexRota = rand() % solution.size();
+	int indexClient = rand() % solution[indexRota].routeArray.routeArray.size();
+	if (indexClient == 0)
+		indexClient++;
+	
 	//Escolhe uma rota aleatoria
 	//Remove um cliente aleatorio desta rota
-	//Escolhe uma rota aleatoria
+	//Equilibra os pesos
+	//Escolhe uma rota aleatoria que seja differente da primeira
 	//Insere o cliente aleatoriamente nesta rota
 }
+
 
 
 void Solution::PrintSolution ()

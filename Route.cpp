@@ -23,6 +23,27 @@ void RouteArray::AddRoute (Client& client)
     routeArray.push_back(*route);
 }//End of function AddRoute
 
+
+Route* RouteArray::RemoveRoute (int index)
+{
+	if (index == routeArray.size()-1)
+		int nextClient = 0;
+	int nextClient = index + 1;
+	
+	int weightAux = RouteArray::RouteWeight (routeArray[index - 1].client, routeArray[nextClient].client);
+	routeArray[index - 1].weight = weightAux;
+	
+	//Remover o route
+	Route* route = routeArray[index];
+	//routeArray.erase(routeArray.begin() + index);
+	
+	return route;
+}//End of function RemoveRoute
+
+void RouteArray::InsertRoute (int index, Route* route)
+{}
+
+
 int RouteArray::RouteWeight (Client& A, Client& B)
 {
 	int aux = std::pow((double)(A.x - B.x), 2) + std::pow((double)A.y - B.y, 2);

@@ -16,6 +16,8 @@ public:
     std::vector<Route> routeArray;
 	int GetTotalWeight ();
     void AddRoute (Client& client);
+    Route* RemoveRoute (int index);
+    void InsertRoute (int index, Route* route);
 	void PrintRoute ();
 
 private:
