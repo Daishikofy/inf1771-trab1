@@ -4,14 +4,14 @@ Solution& SimulatedAnnealing (Clients& clients, int capacity)
 {
   int temperature = 10;
   
-  Solution* solution = new solution;
-  Solution* bestSolution = new solution;
+  Solution* solution = new Solution();
+  Solution* bestSolution = new Solution();
   solution->CreateSolution(clients, capacity);
   bestSolution = solution;
 
   for (int i = 0; i < COND_END; i++)
   {
-    Solution* newSolution = new solution;
+    Solution* newSolution = new Solution();
     newSolution->CreateNeighborSolution(seed);
     int diffWeight = newSolution->totalWeight - solution->totalWeight;
 
