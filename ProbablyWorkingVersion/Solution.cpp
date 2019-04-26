@@ -75,22 +75,13 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 
 void Solution::CreateNeighbor (int seed, Client& centralDepot)
 {
-	Client& _centralDepot = centralDepot;
-	//Solution::MoveRoute(seed);
-	srand(seed);
+	Solution::MoveRoute(seed, centralDepot);
 	
-	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
-	int indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
-	if (indexClient == 0)
-		indexClient++;
 	
-	//Escolhe uma rota aleatoria
-	//Remove um cliente aleatorio desta rota
-	Route* routeAux = solution[indexRoute].routeArray.RemoveRoute(indexClient);
 }
 
-void Solution::MoveRoute(int seed)
-{/*
+void Solution::MoveRoute(int seed, Client& centralDepot)
+{
 	srand(seed);
 	
 	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
@@ -101,7 +92,7 @@ void Solution::MoveRoute(int seed)
 	//Escolhe uma rota aleatoria
 	//Remove um cliente aleatorio desta rota
 	Route* routeAux = solution[indexRoute].routeArray.RemoveRoute(indexClient);
-	if (solution[indexRoute].routeArray.routeArray.size() < 2);
+	//if (solution[indexRoute].routeArray.routeArray.size() < 2);
 	//Caso uma roa estaja vazia, remover ela.
 		//solution.erase(solution.begin() + indexRoute);
 
@@ -109,11 +100,11 @@ void Solution::MoveRoute(int seed)
 	//Escolhe uma rota aleatoria
 	int indexNewRoute = rand() % (solution.size() + 1);
 	if (indexNewRoute >= solution.size())
-		Solution::InicializeSolution(_centralDepot);
+		Solution::InicializeSolution(centralDepot);
 	//Insere o cliente aleatoriamente nesta rota
 	indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
 	solution[indexRoute].routeArray.InsertRoute(indexClient, routeAux);
-	*/
+	
 	
 	//Equilibra os pesos
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <list>
 #include "DataArray.h"
 
 struct Route
@@ -8,6 +9,7 @@ struct Route
   Client& client;
   
   Route(Client& client) : client(client) { }
+  
   void operator=(const Route& route)
 	{
 		this->weight = route.weight;

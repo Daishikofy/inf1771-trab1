@@ -31,24 +31,39 @@ Route* RouteArray::RemoveRoute (int index)
 		nextClient = 0;
 	else
 		nextClient = index + 1;
-	std::cout << "index next client: " << nextClient << "\n";
+
 	int weightAux = RouteArray::RouteWeight (routeArray[index - 1].client, routeArray[nextClient].client);
 	routeArray[index - 1].weight = weightAux;
 	
 	//Remover o route
-	Route* route = new Route (routeArray[index].client);		
+	Route* route = new Route (routeArray[index].client);
+
+	std::cout << "client recuperado: " << &route->client << "\n";			
 	routeArray.erase((routeArray.begin() + index));
-	std::cout << "before update: " << RouteArray::totalWeight << "\n";
+	
+	std::cout << "client recuperado depois de erase: " << &route->client << "\n";	
 	RouteArray::UpdateTotalWeight();
-	std::cout << "after update: " << RouteArray::totalWeight << "\n";
 
 	return route;
 }//End of function RemoveRoute
 
+
+
 void RouteArray::InsertRoute (int index, Route* route)
 {
 	routeArray.insert(routeArray.begin() + index, *route);
-}
+	
+	int nextClient;
+	if (index == routeArray.size()-1)
+		nextClient = 0;
+	else
+		nextClient = index + 1;
+		
+	routeArray[index-1].weight = RouteArray::RouteWeight (routeArray[index-1].client , routeArray[index].client);
+	routeArray[index].weight = RouteArray::RouteWeight (routeArray[index].client , routeArray[nextClient].client);
+	
+	RouteArray::UpdateTotalWeight();
+}//End of function InsertRoute
 
 
 int RouteArray::RouteWeight (Client& A, Client& B)
@@ -62,7 +77,7 @@ int RouteArray::RouteWeight (Client& A, Client& B)
 int RouteArray::GetTotalWeight ()
 {
 	return totalWeight;
-}
+}//End of function GetTotalWeight
 
 void RouteArray::UpdateTotalWeight()
 {
@@ -71,11 +86,11 @@ void RouteArray::UpdateTotalWeight()
 	{
 		totalWeight += routeArray[i].weight;
 	}
-}
+}//End of function UpdateTotalWeight
 
 void RouteArray::PrintRoute ()
 {
 	for (int i = 0; i < routeArray.size(); i ++)
-		std::cout << i << ": " << routeArray[i].client.id << "\n";
+		std::cout << i << ": " << routeArray[i].client.id << " - " << routeArray[i].weight <<  " km\n";
 }//End of funtion PrintRoute
 

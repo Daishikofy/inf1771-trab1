@@ -22,6 +22,5 @@ public:
 private:
 	void InicializeSolution(Client& centralDepot);
 	bool TestAllRoutes(Client& client, int capacity);
-	void MoveRoute(int seed);
-	Client& _centralDepot;
+	void MoveRoute(int seed, Client& centralDepot);
 };

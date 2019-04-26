@@ -16,11 +16,6 @@ int main ()
 	DataArray * dataArray = new DataArray();
 
 	dataArray->ReadFile(clients, capacity, nTrucks, "text.txt");
-
-	/*Solution* solution = new Solution;
-	 
-	solution->CreateSolution(clients,capacity);
-	solution->PrintSolution();*/
 	
 	std::vector<Client> aux = vector<Client>();
 	
@@ -30,14 +25,14 @@ int main ()
 	aux.push_back(clients[3]);
 	aux.push_back(clients[4]);
 	
-	Solution* solaux = new Solution();
-	solaux->CreateSolution(aux, 100);
-	solaux->PrintSolution();
-	Route* client = solaux->solution[1].routeArray.RemoveRoute(1);
-	std::cout << client->client.id << "\n";
-	solaux->PrintSolution();
-	solaux->solution[1].routeArray.InsertRoute(1, client);
-	solaux->PrintSolution();
+	Solution solaux;
+	solaux.CreateSolution(aux, 100);
+	solaux.PrintSolution();
+	solaux.CreateNeighbor(2, aux[0]);
+	solaux.PrintSolution();
+	
+	for(int i = 0; i < aux.size(); i++)
+		std::cout << aux[i].id << "\n";
 
 	//Solution * simulated = SimulatedAnnealing(clients, 100);
 
