@@ -16,7 +16,7 @@ void DataArray::ReadFile (std::vector<Client>& clients, int& capacity, int& nTru
 
 	if (! file.is_open ())
 	{
-		std::cout << "Couldn't open de file\n";
+		std::cout << "Could not open the file\n";
 		return;
 	}
 

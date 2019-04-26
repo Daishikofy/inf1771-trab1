@@ -8,6 +8,11 @@ struct Route
   Client& client;
   
   Route(Client& client) : client(client) { }
+  void operator=(const Route& route)
+	{
+		this->weight = route.weight;
+		this->client = route.client;
+	}
 };
 
 class RouteArray
@@ -16,12 +21,13 @@ public:
     std::vector<Route> routeArray;
 	int GetTotalWeight ();
     void AddRoute (Client& client);
-    RouteArray* RemoveRoute (int index);
+    Route* RemoveRoute (int index);
     void InsertRoute (int index, Route* route);
 	void PrintRoute ();
 
 private:
 	int totalWeight;
+	void UpdateTotalWeight();
 	int RouteWeight (Client& A, Client& B);
 	
 };

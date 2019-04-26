@@ -24,25 +24,31 @@ void RouteArray::AddRoute (Client& client)
 }//End of function AddRoute
 
 
-RouteArray* RouteArray::RemoveRoute (int index)
+Route* RouteArray::RemoveRoute (int index)
 {
+	int nextClient;
 	if (index == routeArray.size()-1)
-		int nextClient = 0;
-	int nextClient = index + 1;
-	
+		nextClient = 0;
+	else
+		nextClient = index + 1;
+	std::cout << "index next client: " << nextClient << "\n";
 	int weightAux = RouteArray::RouteWeight (routeArray[index - 1].client, routeArray[nextClient].client);
 	routeArray[index - 1].weight = weightAux;
 	
 	//Remover o route
-    RouteArray* route = new RouteArray();
-    route->AddRoute(routeArray[index].client);
-	//route->erase(routeArray.begin() + index);
-	
+	Route* route = new Route (routeArray[index].client);		
+	routeArray.erase((routeArray.begin() + index));
+	std::cout << "before update: " << RouteArray::totalWeight << "\n";
+	RouteArray::UpdateTotalWeight();
+	std::cout << "after update: " << RouteArray::totalWeight << "\n";
+
 	return route;
 }//End of function RemoveRoute
 
 void RouteArray::InsertRoute (int index, Route* route)
-{}
+{
+	routeArray.insert(routeArray.begin() + index, *route);
+}
 
 
 int RouteArray::RouteWeight (Client& A, Client& B)
@@ -56,6 +62,15 @@ int RouteArray::RouteWeight (Client& A, Client& B)
 int RouteArray::GetTotalWeight ()
 {
 	return totalWeight;
+}
+
+void RouteArray::UpdateTotalWeight()
+{
+	totalWeight = 0;
+	for (int i = 0; i < routeArray.size(); i++)
+	{
+		totalWeight += routeArray[i].weight;
+	}
 }
 
 void RouteArray::PrintRoute ()

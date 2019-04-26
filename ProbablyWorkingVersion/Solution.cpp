@@ -73,31 +73,62 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 	return false;
 }
 
-void Solution::CreateNeighbor (int seed)
+void Solution::CreateNeighbor (int seed, Client& centralDepot)
 {
+	Client& _centralDepot = centralDepot;
+	//Solution::MoveRoute(seed);
 	srand(seed);
 	
-	int indexRota = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
-	int indexClient = rand() % solution[indexRota].routeArray.routeArray.size();
+	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
+	int indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
 	if (indexClient == 0)
 		indexClient++;
 	
 	//Escolhe uma rota aleatoria
 	//Remove um cliente aleatorio desta rota
-	//Equilibra os pesos
-	//Escolhe uma rota aleatoria que seja differente da primeira
-	//Insere o cliente aleatoriamente nesta rota
+	Route* routeAux = solution[indexRoute].routeArray.RemoveRoute(indexClient);
 }
 
+void Solution::MoveRoute(int seed)
+{/*
+	srand(seed);
+	
+	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
+	int indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
+	if (indexClient == 0)
+		indexClient++;
+	
+	//Escolhe uma rota aleatoria
+	//Remove um cliente aleatorio desta rota
+	Route* routeAux = solution[indexRoute].routeArray.RemoveRoute(indexClient);
+	if (solution[indexRoute].routeArray.routeArray.size() < 2);
+	//Caso uma roa estaja vazia, remover ela.
+		//solution.erase(solution.begin() + indexRoute);
+
+	
+	//Escolhe uma rota aleatoria
+	int indexNewRoute = rand() % (solution.size() + 1);
+	if (indexNewRoute >= solution.size())
+		Solution::InicializeSolution(_centralDepot);
+	//Insere o cliente aleatoriamente nesta rota
+	indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
+	solution[indexRoute].routeArray.InsertRoute(indexClient, routeAux);
+	*/
+	
+	//Equilibra os pesos
+}
 
 
 void Solution::PrintSolution ()
 {
+	int soma = 0;
 	for (int i = 0 ; i < solution.size(); i++)
 	{
 		int n = i + 1;
-		std::cout << "CAMION N " << n << " - " << solution[i].routeWeight << " km\n";
+		std::cout << "CAMION N " << n << " - " << solution[i].routeArray.GetTotalWeight() << " km\n";
 		solution[i].routeArray.PrintRoute();
+		soma += solution[i].routeArray.GetTotalWeight();
 	}
+	std::cout << "Distancia total: " << soma << " km\n";
 }
 

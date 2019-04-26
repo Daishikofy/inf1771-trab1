@@ -22,26 +22,25 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
  //  std::cout << "oi4";
   for (int i = 0; i < COND_END; i++)
   {
-    Solution* newSolution = bestSolution; // era new Solution(), mas estava bugando, mudei para bestSolution
+    Solution newSolution = *solution; // era new Solution(), mas estava bugando, mudei para bestSolution
 	   //std::cout << "oi5";
-    newSolution->CreateNeighbor((int) time(NULL));
+    newSolution.CreateNeighbor(1, clients[0]);
 	  // std::cout << "oi6";
-    int diffWeight = newSolution->totalWeight - solution->totalWeight;
+    int diffWeight = newSolution.totalWeight - solution->totalWeight;
 	  // std::cout << "oi7";
     if (diffWeight > 0)
     {
-      solution = newSolution;
+      solution = &newSolution;
 	  //std::cout << "oi1";
-      if (newSolution->totalWeight < bestSolution->totalWeight) {
-      	bestSolution = newSolution;
-		break;
+      if (newSolution.totalWeight < bestSolution->totalWeight) {
+      	bestSolution = &newSolution;
 	  }
     }
     else
     {
        float pBoltzman = exp((float) diffWeight/ temperature);
        if (pBoltzman <= (float) rand()/RAND_MAX) {
-		   solution = newSolution;
+		   solution = &newSolution;
 	   }
     }
 	   std::cout << "oi6";

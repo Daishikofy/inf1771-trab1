@@ -14,14 +14,14 @@ struct Truck
 class Solution {
 public:
 	std::vector<Truck> solution;
-	int nTruck;
     int totalWeight;
-	void InicializeSolution(Client& centralDepot);
 	void CreateSolution (std::vector<Client>& clients, int capacity);
 	bool InsertClient(Client& client, int capacity, int indexTruck);
-	bool TestAllRoutes(Client& client, int capacity);
-	void CreateNeighbor (int seed);
+	void CreateNeighbor (int seed, Client& centralDepot);
 	void PrintSolution ();
 private:
-
+	void InicializeSolution(Client& centralDepot);
+	bool TestAllRoutes(Client& client, int capacity);
+	void MoveRoute(int seed);
+	Client& _centralDepot;
 };

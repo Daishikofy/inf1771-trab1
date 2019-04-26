@@ -33,10 +33,15 @@ int main ()
 	Solution* solaux = new Solution();
 	solaux->CreateSolution(aux, 100);
 	solaux->PrintSolution();
-	
-	Solution * simulated = SimulatedAnnealing(clients, 100);
+	Route* client = solaux->solution[1].routeArray.RemoveRoute(1);
+	std::cout << client->client.id << "\n";
+	solaux->PrintSolution();
+	solaux->solution[1].routeArray.InsertRoute(1, client);
+	solaux->PrintSolution();
 
-	simulated->PrintSolution();
+	//Solution * simulated = SimulatedAnnealing(clients, 100);
+
+	//simulated->PrintSolution();
 
 
 
