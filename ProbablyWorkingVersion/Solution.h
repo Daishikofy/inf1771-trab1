@@ -6,22 +6,32 @@ struct Truck
 {
   int totalDemand;
   int routeWeight;
-  RouteArray& routeArray;
+  RouteArray* routeArray;
 
-  Truck(RouteArray& routeArray) : routeArray(routeArray) { }
+  Truck(RouteArray* routeArray) : routeArray(routeArray) { }
+  
+  void operator=(const Truck& truck)
+	{
+		totalDemand = truck.totalDemand;
+		routeWeight = truck.routeWeight;
+		routeArray = truck.routeArray;
+	}
 };
 
 class Solution {
 public:
 	std::vector<Truck> solution;
     int totalWeight;
+    int _capacity;
+    bool TestAllRoutes(Client& client, int capacity);
 	void CreateSolution (std::vector<Client>& clients, int capacity);
-	
-	void CreateNeighbor (int seed, Client& centralDepot);
+	void CreateNeighbor (Client& centralDepot);
 	void PrintSolution ();
 private:
 	bool InsertClient(Client& client, int capacity, int indexTruck);
 	void InicializeSolution(Client& centralDepot);
-	bool TestAllRoutes(Client& client, int capacity);
-	void MoveRoute(int seed, Client& centralDepot);
+	
+	void MoveRoute(Client& centralDepot);
+	bool IsInsertionValid(int clientDemand, int index, int capacity);
+	void UpdateTotalWeight();
 };

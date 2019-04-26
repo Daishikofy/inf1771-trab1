@@ -27,12 +27,15 @@ int main ()
 	
 	Solution solaux;
 	solaux.CreateSolution(clients, capacity);
+	solaux.PrintSolution();
+	
+	srand(1);
 	
 	for(int i = 0; i < 3; i++)
 	{
+		solaux.CreateNeighbor(aux[0]);
 		std::cout << " \n\n" << "SOLUTION N " << i + 1 << " \n\n";
-		solaux.PrintSolution();
-		solaux.CreateNeighbor(i, aux[0]);
+		solaux.PrintSolution();	
 	}
 
 	//Solution * simulated = SimulatedAnnealing(clients, 100);

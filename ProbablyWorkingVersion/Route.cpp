@@ -87,7 +87,7 @@ void RouteArray::UpdateTotalWeight()
 
 void RouteArray::PrintRoute ()
 {
-	for (int i = 0; i < routeArray.size(); i ++)
-		std::cout << i << ": " << routeArray[i].client->id << " - " << routeArray[i].weight <<  " km\n";
+	/*for (int i = 0; i < routeArray.size(); i ++)
+		std::cout << i << ": " << routeArray[i].client->id << " - " << routeArray[i].weight <<  " km\n";*/
 }//End of funtion PrintRoute
 
