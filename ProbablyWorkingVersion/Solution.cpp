@@ -6,7 +6,7 @@
 void Solution::InicializeSolution(Client& centralDepot)
 {
     RouteArray* routeArray = new RouteArray;
-	routeArray->AddRoute(centralDepot);
+	routeArray->AddRoute(&centralDepot);
 
 	Truck* truck = new Truck (*routeArray);
 	truck->totalDemand = 0;
@@ -51,7 +51,7 @@ bool Solution::InsertClient(Client& client, int capacity, int indexTruck)
 	int auxTotalDemand = client.demand + solution[indexTruck].totalDemand;
     if ( auxTotalDemand <= capacity)
 	{
-		solution[indexTruck].routeArray.AddRoute(client);
+		solution[indexTruck].routeArray.AddRoute(&client);
 		solution[indexTruck].totalDemand = auxTotalDemand;
 		return true;
 	}
@@ -65,7 +65,7 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 		int auxTotalDemand = client.demand + solution[i].totalDemand;
 		if ( auxTotalDemand <= capacity)
 		{
-			solution[i].routeArray.AddRoute(client);
+			solution[i].routeArray.AddRoute(&client);
 			solution[i].totalDemand = auxTotalDemand;
 			return true;
 		}
@@ -82,28 +82,35 @@ void Solution::CreateNeighbor (int seed, Client& centralDepot)
 
 void Solution::MoveRoute(int seed, Client& centralDepot)
 {
+
 	srand(seed);
 	
-	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!
+	int indexRoute = rand() % solution.size(); // perigo, se solution estiver vazia, ocorre divisao por zero!!		
 	int indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
 	if (indexClient == 0)
 		indexClient++;
-	
-	//Escolhe uma rota aleatoria
-	//Remove um cliente aleatorio desta rota
+		
+	//Escolhe uma rota aleatoria e remove um cliente aleatorio desta rota
+	if (solution[indexRoute].routeArray.routeArray.size() < 2);
+		indexRoute++;
+		
 	Route* routeAux = solution[indexRoute].routeArray.RemoveRoute(indexClient);
-	//if (solution[indexRoute].routeArray.routeArray.size() < 2);
-	//Caso uma roa estaja vazia, remover ela.
-		//solution.erase(solution.begin() + indexRoute);
-
+	//if (solution[indexRoute].routeArray.routeArray.size() < 2);//Caso uma roa estaja vazia, remover ela.
+    	//solution.erase(solution.begin() + indexRoute);
+    	
+	std::cout << "Remocao effetiva\n";
 	
 	//Escolhe uma rota aleatoria
 	int indexNewRoute = rand() % (solution.size() + 1);
 	if (indexNewRoute >= solution.size())
 		Solution::InicializeSolution(centralDepot);
-	//Insere o cliente aleatoriamente nesta rota
-	indexClient = rand() % solution[indexRoute].routeArray.routeArray.size();
-	solution[indexRoute].routeArray.InsertRoute(indexClient, routeAux);
+
+	//escolhe um cliente aleatorio
+	indexClient = rand() % solution[indexNewRoute].routeArray.routeArray.size();
+	if (indexClient == 0)
+		indexClient++;
+	//Insere o cliente aleatoriamente nesta rota		
+	solution[indexNewRoute].routeArray.InsertRoute(indexClient, routeAux);
 	
 	
 	//Equilibra os pesos

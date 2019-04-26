@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Route.h"
 
-void RouteArray::AddRoute (Client& client)
+void RouteArray::AddRoute (Client* client)
 {
 	Route* route = new Route (client);
 	
@@ -17,10 +17,10 @@ void RouteArray::AddRoute (Client& client)
 		int weightAux = RouteArray::RouteWeight (routeArray[lastElement].client, client);
 		routeArray[lastElement].weight = weightAux;
 		route->weight = RouteArray::RouteWeight (client, routeArray[0].client);
-		totalWeight += route->weight;
 	}
 
     routeArray.push_back(*route);
+    RouteArray::UpdateTotalWeight();
 }//End of function AddRoute
 
 
@@ -37,11 +37,8 @@ Route* RouteArray::RemoveRoute (int index)
 	
 	//Remover o route
 	Route* route = new Route (routeArray[index].client);
-
-	std::cout << "client recuperado: " << &route->client << "\n";			
-	routeArray.erase((routeArray.begin() + index));
-	
-	std::cout << "client recuperado depois de erase: " << &route->client << "\n";	
+		
+	routeArray.erase((routeArray.begin() + index));	
 	RouteArray::UpdateTotalWeight();
 
 	return route;
@@ -66,9 +63,9 @@ void RouteArray::InsertRoute (int index, Route* route)
 }//End of function InsertRoute
 
 
-int RouteArray::RouteWeight (Client& A, Client& B)
+int RouteArray::RouteWeight (Client* A, Client* B)
 {
-	int aux = std::pow((double)(A.x - B.x), 2) + std::pow((double)A.y - B.y, 2);
+	int aux = std::pow((double)(A->x - B->x), 2) + std::pow((double)A->y - B->y, 2);
     int weight = (int) std::sqrt((double)aux);
     return weight;
 
@@ -91,6 +88,6 @@ void RouteArray::UpdateTotalWeight()
 void RouteArray::PrintRoute ()
 {
 	for (int i = 0; i < routeArray.size(); i ++)
-		std::cout << i << ": " << routeArray[i].client.id << " - " << routeArray[i].weight <<  " km\n";
+		std::cout << i << ": " << routeArray[i].client->id << " - " << routeArray[i].weight <<  " km\n";
 }//End of funtion PrintRoute
 

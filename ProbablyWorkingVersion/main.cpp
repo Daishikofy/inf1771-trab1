@@ -19,20 +19,21 @@ int main ()
 	
 	std::vector<Client> aux = vector<Client>();
 	
-	aux.push_back(clients[0]);
-	aux.push_back(clients[1]);
-	aux.push_back(clients[2]);
-	aux.push_back(clients[3]);
-	aux.push_back(clients[4]);
+	for(int i = 0; i<15; i++)
+	{
+	aux.push_back(clients[i]);
+	}
+	
 	
 	Solution solaux;
-	solaux.CreateSolution(aux, 100);
-	solaux.PrintSolution();
-	solaux.CreateNeighbor(2, aux[0]);
-	solaux.PrintSolution();
+	solaux.CreateSolution(clients, capacity);
 	
-	for(int i = 0; i < aux.size(); i++)
-		std::cout << aux[i].id << "\n";
+	for(int i = 0; i < 3; i++)
+	{
+		std::cout << " \n\n" << "SOLUTION N " << i + 1 << " \n\n";
+		solaux.PrintSolution();
+		solaux.CreateNeighbor(i, aux[0]);
+	}
 
 	//Solution * simulated = SimulatedAnnealing(clients, 100);
 
