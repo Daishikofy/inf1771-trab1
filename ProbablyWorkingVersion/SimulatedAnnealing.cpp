@@ -23,8 +23,16 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
   for (int i = 0; i < COND_END; i++)
   {
     Solution newSolution = *solution; // era new Solution(), mas estava bugando, mudei para bestSolution 
-    newSolution.CreateNeighbor(1, clients[0]);
-	  
+    std::cout << "\n\nANTES DE MEXER: \n\n";
+    solution->PrintSolution();
+    
+    solution->CreateNeighbor(clients[0]);
+	
+	std::cout << "\n\nNEW SOLUTION: \n\n";
+	newSolution.PrintSolution();
+	std::cout << "\n\nCURRENT SOLUTION: \n\n";
+	solution->PrintSolution();
+	
     int diffWeight = newSolution.totalWeight - solution->totalWeight;
 	  
     if (diffWeight > 0)

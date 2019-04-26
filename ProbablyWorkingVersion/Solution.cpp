@@ -93,7 +93,7 @@ void Solution::MoveRoute(Client& centralDepot)
 	solution[indexRoute].totalDemand -= routeAux->client->demand;
 	
 	if (solution[indexRoute].routeArray->routeArray.size() < 2);//Caso uma roa estaja vazia, remover ela.
-    	solution.erase(solution.begin() + indexRoute);
+    	//solution.erase(solution.begin() + indexRoute);
     	
 	std::cout << "Remocao effetiva\n";
 	
@@ -107,21 +107,23 @@ void Solution::MoveRoute(Client& centralDepot)
 		indexNewRoute = rand() % (solution.size() + 2);
 	}
 	
-	
 	if (indexNewRoute >= solution.size())
+	{
 		Solution::InicializeSolution(centralDepot);
+		indexNewRoute = solution.size() - 1;
+	}
 
 	//escolhe um indexo cliente aleatorio
 	indexClient = rand() % solution[indexNewRoute].routeArray->routeArray.size();
+	
 	if (indexClient == 0)
 		indexClient++;
-		
 	//Insere o cliente aleatoriamente nesta rota		
 	solution[indexNewRoute].routeArray->InsertRoute(indexClient, routeAux);
 	solution[indexNewRoute].totalDemand += routeAux->client->demand;
-		
 	//Equilibra os pesos
 	UpdateTotalWeight();	
+	std::cout << "Insercao effetiva\n";
 	
 }//End of function MoveRoute
 
