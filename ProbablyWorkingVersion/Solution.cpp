@@ -86,20 +86,25 @@ void Solution::MoveRoute(Client& centralDepot)
 		indexClient++;
 		
 	//Escolhe uma rota aleatoria e remove um cliente aleatorio desta rota
-	if (solution[indexRoute].routeArray->routeArray.size() < 2);
-		indexRoute++;
+	/*if (solution[indexRoute].routeArray->routeArray.size() < 2);
+		indexRoute++;*/
 		
 	Route* routeAux = solution[indexRoute].routeArray->RemoveRoute(indexClient);
 	solution[indexRoute].totalDemand -= routeAux->client->demand;
 	
 	if (solution[indexRoute].routeArray->routeArray.size() < 2);//Caso uma roa estaja vazia, remover ela.
-    	//solution.erase(solution.begin() + indexRoute);
+    	solution.erase(solution.begin() + indexRoute);
     	
 	std::cout << "Remocao effetiva\n";
 	
 	//Escolhe uma rota aleatoria
 	int indexNewRoute = rand() % (solution.size() + 2);
 	
+	if (indexNewRoute >= solution.size())
+	{
+		Solution::InicializeSolution(centralDepot);
+		indexNewRoute = solution.size() - 1;
+	}
 	//verifica que o clinete pode ser inserido nesta rota
 	
 	while(! Solution::IsInsertionValid(routeAux->client->demand, indexNewRoute, _capacity))
@@ -107,11 +112,7 @@ void Solution::MoveRoute(Client& centralDepot)
 		indexNewRoute = rand() % (solution.size() + 2);
 	}
 	
-	if (indexNewRoute >= solution.size())
-	{
-		Solution::InicializeSolution(centralDepot);
-		indexNewRoute = solution.size() - 1;
-	}
+	
 
 	//escolhe um indexo cliente aleatorio
 	indexClient = rand() % solution[indexNewRoute].routeArray->routeArray.size();
@@ -126,6 +127,24 @@ void Solution::MoveRoute(Client& centralDepot)
 	std::cout << "Insercao effetiva\n";
 	
 }//End of function MoveRoute
+
+Solution* Solution::Duplicate()
+{
+	Solution* newSolution = new Solution ();
+
+	for (int i = 0 ; i < solution.size(); i++)
+	{
+		Truck newTruck(solution[i].routeArray->Duplicate());
+		newTruck.routeWeight = solution[i].routeWeight;
+		newTruck.totalDemand = solution[i].totalDemand;
+		newSolution->solution.push_back(newTruck);
+	}
+
+	newSolution->totalWeight = totalWeight;
+	newSolution->_capacity = _capacity;
+
+	return newSolution;
+}
 
 
 bool Solution::IsInsertionValid(int clientDemand, int index, int capacity)

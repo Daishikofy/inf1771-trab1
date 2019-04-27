@@ -20,14 +20,17 @@ class RouteArray
 {
 public:
     std::vector<Route> routeArray;
+
 	int GetTotalWeight ();
     void AddRoute (Client* client);
     Route* RemoveRoute (int index);
     void InsertRoute (int index, Route* route);
+	RouteArray* Duplicate();
 	void PrintRoute ();
 
 private:
 	int totalWeight;
+
 	void UpdateTotalWeight();
 	int RouteWeight (Client* A, Client* B);
 	

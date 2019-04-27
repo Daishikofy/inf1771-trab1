@@ -85,6 +85,20 @@ void RouteArray::UpdateTotalWeight()
 	}
 }//End of function UpdateTotalWeight
 
+RouteArray* RouteArray::Duplicate()
+{
+	RouteArray* newRouteArray = new RouteArray();
+	for (int i = 0; i < routeArray.size(); i++)
+	{	
+		Route* newRoute = new Route(routeArray[i].client);
+		newRoute->weight = routeArray[i].weight;
+		newRouteArray->routeArray.push_back(*newRoute);
+	}
+	newRouteArray->totalWeight = totalWeight;
+
+	return newRouteArray;
+}
+
 void RouteArray::PrintRoute ()
 {
 	for (int i = 0; i < routeArray.size(); i ++)

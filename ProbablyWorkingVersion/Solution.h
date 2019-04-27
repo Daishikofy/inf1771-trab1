@@ -23,15 +23,17 @@ public:
 	std::vector<Truck> solution;
     int totalWeight;
     int _capacity;
-    bool TestAllRoutes(Client& client, int capacity);
+    
 	void CreateSolution (std::vector<Client>& clients, int capacity);
 	void CreateNeighbor (Client& centralDepot);
+	Solution* Duplicate();
 	void PrintSolution ();
 private:
 	bool InsertClient(Client& client, int capacity, int indexTruck);
 	void InicializeSolution(Client& centralDepot);
-	
+	bool TestAllRoutes(Client& client, int capacity);
 	void MoveRoute(Client& centralDepot);
+	std::vector<Truck> DuplicateTrucks();
 	bool IsInsertionValid(int clientDemand, int index, int capacity);
 	void UpdateTotalWeight();
 };

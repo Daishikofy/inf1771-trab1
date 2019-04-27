@@ -22,25 +22,25 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
 
   for (int i = 0; i < COND_END; i++)
   {
-    Solution newSolution = *solution; // era new Solution(), mas estava bugando, mudei para bestSolution 
+	Solution* newSolution = solution->Duplicate(); // era new Solution(), mas estava bugando, mudei para bestSolution 
     std::cout << "\n\nANTES DE MEXER: \n\n";
     solution->PrintSolution();
     
-    solution->CreateNeighbor(clients[0]);
-	
+    newSolution->CreateNeighbor(clients[0]);
+	solution->CreateNeighbor(clients[0]);
 	std::cout << "\n\nNEW SOLUTION: \n\n";
-	newSolution.PrintSolution();
+	newSolution->PrintSolution();
 	std::cout << "\n\nCURRENT SOLUTION: \n\n";
 	solution->PrintSolution();
 	
-    int diffWeight = newSolution.totalWeight - solution->totalWeight;
+    int diffWeight = newSolution->totalWeight - solution->totalWeight;
 	  
     if (diffWeight > 0)
     {
-      solution = &newSolution;
+      solution = newSolution;
 	 
-      if (newSolution.totalWeight < bestSolution->totalWeight) {
-      	bestSolution = &newSolution;
+      if (newSolution->totalWeight < bestSolution->totalWeight) {
+      	bestSolution = newSolution;
 	  }
     }
     else
@@ -48,7 +48,7 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
        float pBoltzman = exp((float) diffWeight/ temperature);
        if (pBoltzman <= (float) rand()/RAND_MAX) 
        {
-		   solution = &newSolution;
+		   solution = newSolution;
 	   }
     }
 	temperature = coolingFactor * temperature;
