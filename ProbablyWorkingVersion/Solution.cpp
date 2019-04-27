@@ -79,23 +79,17 @@ void Solution::CreateNeighbor (Client& centralDepot)
 
 void Solution::MoveRoute(Client& centralDepot)
 {
-	
 	int indexRoute = rand() % solution.size(); 	
 	int indexClient = rand() % solution[indexRoute].routeArray->routeArray.size();
 	if (indexClient == 0)
 		indexClient++;
-		
-	//Escolhe uma rota aleatoria e remove um cliente aleatorio desta rota
-	/*if (solution[indexRoute].routeArray->routeArray.size() < 2);
-		indexRoute++;*/
-		
+
 	Route* routeAux = solution[indexRoute].routeArray->RemoveRoute(indexClient);
 	solution[indexRoute].totalDemand -= routeAux->client->demand;
-	
-	if (solution[indexRoute].routeArray->routeArray.size() < 2);//Caso uma roa estaja vazia, remover ela.
-    	solution.erase(solution.begin() + indexRoute);
-    	
-	std::cout << "Remocao effetiva\n";
+
+	int routeSize = solution[indexRoute].routeArray->routeArray.size();
+	if (routeSize <= 1)//Caso a rota estiver vazia, remover ela.
+		solution.erase(solution.begin() + indexRoute);
 	
 	//Escolhe uma rota aleatoria
 	int indexNewRoute = rand() % (solution.size() + 2);
@@ -105,26 +99,29 @@ void Solution::MoveRoute(Client& centralDepot)
 		Solution::InicializeSolution(centralDepot);
 		indexNewRoute = solution.size() - 1;
 	}
-	//verifica que o clinete pode ser inserido nesta rota
+	//verifica que o cliente pode ser inserido nesta rota
 	
 	while(! Solution::IsInsertionValid(routeAux->client->demand, indexNewRoute, _capacity))
 	{
 		indexNewRoute = rand() % (solution.size() + 2);
+
+		if (indexNewRoute >= solution.size())
+		{
+			Solution::InicializeSolution(centralDepot);
+			indexNewRoute = solution.size() - 1;
+		}
 	}
-	
-	
 
 	//escolhe um indexo cliente aleatorio
 	indexClient = rand() % solution[indexNewRoute].routeArray->routeArray.size();
 	
 	if (indexClient == 0)
 		indexClient++;
-	//Insere o cliente aleatoriamente nesta rota		
+	//Insere o cliente aleatoriamente nesta rota
 	solution[indexNewRoute].routeArray->InsertRoute(indexClient, routeAux);
 	solution[indexNewRoute].totalDemand += routeAux->client->demand;
 	//Equilibra os pesos
 	UpdateTotalWeight();	
-	std::cout << "Insercao effetiva\n";
 	
 }//End of function MoveRoute
 

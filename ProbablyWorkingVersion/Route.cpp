@@ -49,7 +49,6 @@ Route* RouteArray::RemoveRoute (int index)
 void RouteArray::InsertRoute (int index, Route* route)
 {
 	routeArray.insert(routeArray.begin() + index, *route);
-	
 	int nextClient;
 	if (index == routeArray.size()-1)
 		nextClient = 0;

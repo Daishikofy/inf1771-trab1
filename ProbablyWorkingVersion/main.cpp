@@ -24,14 +24,10 @@ int main ()
 	aux.push_back(clients[i]);
 	}
 	srand(1);
-	/*
+	
 	Solution solaux;
-	solaux.CreateSolution(clients, capacity);
-	solaux.PrintSolution();
-	
-	
-	
-	for(int i = 0; i < 3; i++)
+	solaux.CreateSolution(aux, capacity);
+	/*for(int i = 0; i < 5; i++)
 	{
 		solaux.CreateNeighbor(aux[0]);
 		std::cout << " \n\n" << "SOLUTION N " << i + 1 << " \n\n";
