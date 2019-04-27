@@ -76,61 +76,14 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 }//End of function TestAllRoutes
 
 
-void Solution::CreateNeighbor (Client& centralDepot)
+void Solution::CreateNeighbor (Client& centralDepot, int method)
 {
-
-	Solution::MoveRoute(centralDepot);
+	if (method)
+		Solution::MoveRoute(centralDepot);
+	else
+		Solution::InnerSwap();
 	
 }//End of function CreateNeighbor
-
-
-void Solution::MoveRoute(Client& centralDepot)
-{
-	int indexRoute = rand() % solution.size(); 	
-	int indexClient = rand() % solution[indexRoute].routeArray->routeArray.size();
-	if (indexClient == 0)
-		indexClient++;
-
-	Route* routeAux = solution[indexRoute].routeArray->RemoveRoute(indexClient);
-	solution[indexRoute].totalDemand -= routeAux->client->demand;
-
-	int routeSize = solution[indexRoute].routeArray->routeArray.size();
-	if (routeSize <= 1)//Caso a rota estiver vazia, remover ela.
-		solution.erase(solution.begin() + indexRoute);
-	
-	//Escolhe uma rota aleatoria
-	int indexNewRoute = rand() % (solution.size() + 2);
-	
-	if (indexNewRoute >= solution.size())
-	{
-		Solution::InicializeSolution(centralDepot);
-		indexNewRoute = solution.size() - 1;
-	}
-
-	//verifica que o cliente pode ser inserido nesta rota
-	while(! Solution::IsInsertionValid(routeAux->client->demand, indexNewRoute, _capacity))
-	{
-		indexNewRoute = rand() % (solution.size() + 2);
-
-		if (indexNewRoute >= solution.size())
-		{
-			Solution::InicializeSolution(centralDepot);
-			indexNewRoute = solution.size() - 1;
-		}
-	}
-
-	//escolhe um indexo cliente aleatorio
-	indexClient = rand() % solution[indexNewRoute].routeArray->routeArray.size();
-	
-	if (indexClient == 0)
-		indexClient++;
-	//Insere o cliente aleatoriamente nesta rota
-	solution[indexNewRoute].routeArray->InsertRoute(indexClient, routeAux);
-	solution[indexNewRoute].totalDemand += routeAux->client->demand;
-	//Equilibra os pesos
-	UpdateTotalWeight();	
-	
-}//End of function MoveRoute
 
 Solution* Solution::Duplicate()
 {
@@ -181,3 +134,79 @@ void Solution::PrintSolution ()
 	std::cout << "Distancia total: " << totalWeight << " km\n";
 }// End of function PrintSolution
 
+
+/*** FUNCOES DE VIZINHANCA ***/
+
+void Solution::MoveRoute(Client& centralDepot)
+{
+	int indexRoute = rand() % solution.size(); 	
+	int indexClient = rand() % solution[indexRoute].routeArray->routeArray.size();
+	if (indexClient == 0)
+		indexClient++;
+
+	Route* routeAux = solution[indexRoute].routeArray->RemoveRoute(indexClient);
+	solution[indexRoute].totalDemand -= routeAux->client->demand;
+
+	int routeSize = solution[indexRoute].routeArray->routeArray.size();
+	if (routeSize <= 1)//Caso a rota estiver vazia, remover ela.
+		solution.erase(solution.begin() + indexRoute);
+	
+	//Escolhe uma rota aleatoria
+	int indexNewRoute = rand() % (solution.size() + 2);
+	
+	if (indexNewRoute >= solution.size())
+	{
+		Solution::InicializeSolution(centralDepot);
+		indexNewRoute = solution.size() - 1;
+	}
+
+	//verifica que o cliente pode ser inserido nesta rota
+	while(! Solution::IsInsertionValid(routeAux->client->demand, indexNewRoute, _capacity))
+	{
+		indexNewRoute = rand() % (solution.size() + 2);
+
+		if (indexNewRoute >= solution.size())
+		{
+			Solution::InicializeSolution(centralDepot);
+			indexNewRoute = solution.size() - 1;
+		}
+	}
+
+	//escolhe um indexo cliente aleatorio
+	indexClient = rand() % solution[indexNewRoute].routeArray->routeArray.size();
+	
+	if (indexClient == 0)
+		indexClient++;
+	//Insere o cliente aleatoriamente nesta rota
+	solution[indexNewRoute].routeArray->InsertRoute(indexClient, routeAux);
+	solution[indexNewRoute].totalDemand += routeAux->client->demand;
+	//Equilibra os pesos
+	UpdateTotalWeight();	
+	
+}//End of function MoveRoute
+
+void Solution::InnerSwap ()
+{
+	//Escolhe uma rota aleatoria
+	int indexRoute = rand() % solution.size(); 
+
+	//Se a rota tiver pelo menos dois clientes
+	while(solution[indexRoute].routeArray->routeArray.size() < 3)
+		indexRoute = rand() % solution.size(); 
+
+	//Escolhe um cliente aleatorio differente de 0
+	int indexClientA = rand() % solution[indexRoute].routeArray->routeArray.size();
+	if (indexClientA == 0)
+		indexClientA++;
+	
+	//Escolhe um segundo cliente differente do primeiro e de 0
+	int indexClientB = rand() % solution[indexRoute].routeArray->routeArray.size();
+	while (indexClientB == 0 || indexClientB == indexClientA)
+		indexClientB = rand() % solution[indexRoute].routeArray->routeArray.size();
+	
+	//Troca os dois clientes de lugar
+	solution[indexRoute].routeArray->SwapRoute(indexClientA, indexClientB);
+
+	Solution::UpdateTotalWeight();
+	
+}//End of function InnerSwap

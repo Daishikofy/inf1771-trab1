@@ -31,7 +31,7 @@ public:
 	/*
 	* Recebe o deposito e modifica uma solucao atual para a transformar em uma vizinha
 	*/
-	void CreateNeighbor (Client& centralDepot);
+	void CreateNeighbor (Client& centralDepot, int method);
 
 	/*
 	* Retorna um ponteirp para uma copia da solução atual
@@ -43,14 +43,18 @@ public:
 	*/
 	void PrintSolution ();
 
+	void InnerSwap ();
+
 private:
 	int _capacity;
 
 	bool InsertClient(Client& client, int capacity, int indexTruck);
 	void InicializeSolution(Client& centralDepot);
 	bool TestAllRoutes(Client& client, int capacity);
-	void MoveRoute(Client& centralDepot);
 	std::vector<Truck> DuplicateTrucks();
 	bool IsInsertionValid(int clientDemand, int index, int capacity);
 	void UpdateTotalWeight();
+
+	void MoveRoute(Client& centralDepot);
+	
 };

@@ -17,15 +17,16 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
 
   int noBestCombo = 0;
   bool best;
-
+  int i = 0;
   while (noBestCombo < condEnd )
   {
+	  i++;
 	  temperature = maxTemperature;
 	  best = false;
 	  while (temperature > 1)
 	  {
 		Solution* newSolution = solution->Duplicate(); 
-		newSolution->CreateNeighbor(clients[0]); 
+		newSolution->CreateNeighbor(clients[0], i%2); 
 		int diffWeight = newSolution->totalWeight - solution->totalWeight;
 	  
 		if (diffWeight > 0)
@@ -50,6 +51,5 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
 	  if (!best)
 			noBestCombo ++;
   }
-
   return bestSolution;
 }//End of function Simulated Annealing

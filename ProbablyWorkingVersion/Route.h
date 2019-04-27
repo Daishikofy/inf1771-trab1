@@ -45,6 +45,8 @@ public:
 	*/
     void InsertRoute (int index, Route* route);
 
+	void SwapRoute (int indexA, int indexB);
+
 	/*
 	* Retorna uma copia da rota corrente
 	*/
@@ -58,7 +60,7 @@ public:
 private:
 	int totalWeight;
 
+	void UpdateSurroundWeight(int index);
 	void UpdateTotalWeight();
-	int RouteWeight (Client* A, Client* B);
-	
+	int RouteWeight (Client* A, Client* B);	
 };

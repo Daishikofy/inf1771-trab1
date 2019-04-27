@@ -49,18 +49,32 @@ Route* RouteArray::RemoveRoute (int index)
 void RouteArray::InsertRoute (int index, Route* route)
 {
 	routeArray.insert(routeArray.begin() + index, *route);
+	RouteArray::UpdateSurroundWeight(index);
+	
+	RouteArray::UpdateTotalWeight();
+}//End of function InsertRoute
+
+void RouteArray::SwapRoute (int indexA, int indexB)
+{
+	Route routeAuxA = routeArray[indexA];
+	routeArray[indexA] = routeArray[indexB];
+	routeArray[indexB] = routeAuxA;
+
+	RouteArray::UpdateSurroundWeight(indexA);
+	RouteArray::UpdateSurroundWeight(indexB);	
+}//End of function SwapRoute
+
+void RouteArray::UpdateSurroundWeight(int index)
+{
 	int nextClient;
 	if (index == routeArray.size()-1)
 		nextClient = 0;
 	else
 		nextClient = index + 1;
-		
+
 	routeArray[index-1].weight = RouteArray::RouteWeight (routeArray[index-1].client , routeArray[index].client);
 	routeArray[index].weight = RouteArray::RouteWeight (routeArray[index].client , routeArray[nextClient].client);
-	
-	RouteArray::UpdateTotalWeight();
-}//End of function InsertRoute
-
+}//End of function UpdateSurroundWeight
 
 int RouteArray::RouteWeight (Client* A, Client* B)
 {
