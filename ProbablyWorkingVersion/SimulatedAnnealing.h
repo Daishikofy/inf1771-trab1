@@ -2,4 +2,4 @@
 #include <vector>
 
 
-Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity);
+Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int condEnd, int maxTemperature, float coolingFactor);

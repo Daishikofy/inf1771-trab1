@@ -1,6 +1,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <time.h>
+#include <stdio.h>
 
 #include "Route.h"
 #include "Solution.h"
@@ -17,29 +19,20 @@ int main ()
 
 	dataArray->ReadFile(clients, capacity, nTrucks, "text.txt");
 	
-	std::vector<Client> aux = vector<Client>();
-	
-	for(int i = 0; i<10; i++)
-	{
-	aux.push_back(clients[i]);
-	}
-	srand(1);
-	
-	Solution solaux;
-	solaux.CreateSolution(aux, capacity);
-	/*for(int i = 0; i < 5; i++)
-	{
-		solaux.CreateNeighbor(aux[0]);
-		std::cout << " \n\n" << "SOLUTION N " << i + 1 << " \n\n";
-		solaux.PrintSolution();	
-	}*/
-	 Solution* simulated = SimulatedAnnealing(aux, 100);
 
-	//Solution * simulated = SimulatedAnnealing(clients, 100);
+	clock_t t;
 
-	//simulated->PrintSolution();
+	srand(3);
 
+	t = clock();
+	Solution* simulated = SimulatedAnnealing(clients, capacity, 5000, 500, 0.4);
 
+	t = clock() - t;
+	float time = (float)t/CLOCKS_PER_SEC;
+
+	simulated->PrintSolution();
+
+	printf("Tick: %d - Time: %3.5f\n",t,time);
 
 	return 0;
 }

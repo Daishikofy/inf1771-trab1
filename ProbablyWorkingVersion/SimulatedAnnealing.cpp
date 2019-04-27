@@ -1,44 +1,45 @@
+#include <iostream>
+#include "cmath"
 #include "Route.h"
 #include "DataArray.h"
 #include "Solution.h"
-#include "cmath"
-#include "ctime"
 #include "SimulatedAnnealing.h"
-#include <iostream>
-#define COND_END 10
-#define TEMP 1000
 
 
-Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
+Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int condEnd, int maxTemperature, float coolingFactor)
 {
-  int temperature = TEMP;
-  int coolingFactor = 0.95;
+  float temperature;
  
   Solution* solution = new Solution();
   Solution* bestSolution = new Solution();
-    
   solution->CreateSolution(clients, capacity);
-  bestSolution = solution->Duplicate();
-  solution->PrintSolution();
-  
-  for (int i = 0; i < COND_END; i++)
+  bestSolution = solution;
+
+  int i = 0;
+  int noBestCombo = 0;
+  bool best;
+
+  while (noBestCombo < condEnd )
   {
-	  temperature = TEMP;
-	  while (temperature > 0.5)
+	  i++;
+	  temperature = maxTemperature;
+	  best = false;
+	  while (temperature > 1)
 	  {
 		Solution* newSolution = solution->Duplicate(); // era new Solution(), mas estava bugando, mudei para bestSolution 
-		std::cout << i << "\n";
-		newSolution->CreateNeighbor(clients[0]);
-	
+		newSolution->CreateNeighbor(clients[0]); 
 		int diffWeight = newSolution->totalWeight - solution->totalWeight;
 	  
 		if (diffWeight > 0)
 		{
 		  solution = newSolution;
 	 
-		  if (newSolution->totalWeight < bestSolution->totalWeight) {
-			  std::cout << "oi" << "\n";
+		  if (newSolution->totalWeight < bestSolution->totalWeight) 
+		  {
+			//std::cout << std::string(i, '|'); //Barra de carregamento
       		bestSolution = newSolution;
+			best = true;
+			noBestCombo = 0;
 		  }
 		}
 		else
@@ -49,10 +50,10 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity)
 			   solution = newSolution;
 		   }
 		}
-
 		temperature = coolingFactor * temperature;
 	  }
+	  if (!best)
+			noBestCombo ++;
   }
-  bestSolution->PrintSolution();
   return bestSolution;
 }
