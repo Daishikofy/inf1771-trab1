@@ -15,18 +15,16 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
   solution->CreateSolution(clients, capacity);
   bestSolution = solution;
 
-  int i = 0;
   int noBestCombo = 0;
   bool best;
 
   while (noBestCombo < condEnd )
   {
-	  i++;
 	  temperature = maxTemperature;
 	  best = false;
 	  while (temperature > 1)
 	  {
-		Solution* newSolution = solution->Duplicate(); // era new Solution(), mas estava bugando, mudei para bestSolution 
+		Solution* newSolution = solution->Duplicate(); 
 		newSolution->CreateNeighbor(clients[0]); 
 		int diffWeight = newSolution->totalWeight - solution->totalWeight;
 	  
@@ -36,7 +34,6 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
 	 
 		  if (newSolution->totalWeight < bestSolution->totalWeight) 
 		  {
-			//std::cout << std::string(i, '|'); //Barra de carregamento
       		bestSolution = newSolution;
 			best = true;
 			noBestCombo = 0;
@@ -45,15 +42,14 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
 		else
 		{
 		   float pBoltzman = exp((float) diffWeight/ temperature);
-		   if (pBoltzman <= (float) rand()/RAND_MAX) 
-		   {
-			   solution = newSolution;
-		   }
+		   if (pBoltzman <= (float) rand()/RAND_MAX) 	   
+			   solution = newSolution;  
 		}
 		temperature = coolingFactor * temperature;
 	  }
 	  if (!best)
 			noBestCombo ++;
   }
+
   return bestSolution;
-}
+}//End of function Simulated Annealing

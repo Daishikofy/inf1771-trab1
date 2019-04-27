@@ -70,12 +70,13 @@ int RouteArray::RouteWeight (Client* A, Client* B)
 
 }//End of function RouteWeight
 
-int RouteArray::GetTotalWeight ()
-{
+
+int RouteArray::GetTotalWeight () {
 	return totalWeight;
 }//End of function GetTotalWeight
 
-void RouteArray::UpdateTotalWeight()
+
+void RouteArray::UpdateTotalWeight() 
 {
 	totalWeight = 0;
 	for (int i = 0; i < routeArray.size(); i++)
@@ -96,7 +97,7 @@ RouteArray* RouteArray::Duplicate()
 	newRouteArray->totalWeight = totalWeight;
 
 	return newRouteArray;
-}
+}//End of function Duplicate
 
 void RouteArray::PrintRoute ()
 {

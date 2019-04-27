@@ -44,8 +44,8 @@ void Solution::CreateSolution (std::vector<Client>& clients, int capacity)
 			}
 		}
 	} 
-	Solution::UpdateTotalWeight();
 
+	Solution::UpdateTotalWeight();
 }// End of function CreateSolution
 
 
@@ -61,6 +61,7 @@ bool Solution::InsertClient(Client& client, int capacity, int indexTruck)
 	return false;
 }//End of function InsertClient
 
+
 bool Solution::TestAllRoutes(Client& client, int capacity)
 {
 	for (int i = 0; i < solution.size(); i++)
@@ -72,7 +73,8 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 		}
 	}
 	return false;
-}
+}//End of function TestAllRoutes
+
 
 void Solution::CreateNeighbor (Client& centralDepot)
 {
@@ -104,8 +106,8 @@ void Solution::MoveRoute(Client& centralDepot)
 		Solution::InicializeSolution(centralDepot);
 		indexNewRoute = solution.size() - 1;
 	}
+
 	//verifica que o cliente pode ser inserido nesta rota
-	
 	while(! Solution::IsInsertionValid(routeAux->client->demand, indexNewRoute, _capacity))
 	{
 		indexNewRoute = rand() % (solution.size() + 2);
@@ -146,7 +148,7 @@ Solution* Solution::Duplicate()
 	newSolution->_capacity = _capacity;
 
 	return newSolution;
-}
+}//End of function Duplicate
 
 
 bool Solution::IsInsertionValid(int clientDemand, int index, int capacity)
@@ -156,6 +158,7 @@ bool Solution::IsInsertionValid(int clientDemand, int index, int capacity)
 		return true;
 	return false;
 }// End of function IsInsertionvalid
+
 
 void Solution::UpdateTotalWeight()
 {
@@ -169,14 +172,12 @@ void Solution::UpdateTotalWeight()
 
 void Solution::PrintSolution ()
 {
-	int soma = 0;
 	for (int i = 0 ; i < solution.size(); i++)
 	{
 		int n = i + 1;
 		std::cout << "\nCAMION N " << n << " - " << solution[i].routeArray->GetTotalWeight() << " km\n";
 		solution[i].routeArray->PrintRoute();
-		soma += solution[i].routeArray->GetTotalWeight();
 	}
-	std::cout << "Distancia total: " << soma << " km\n";
-}
+	std::cout << "Distancia total: " << totalWeight << " km\n";
+}// End of function PrintSolution
 
