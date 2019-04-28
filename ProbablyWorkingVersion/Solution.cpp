@@ -78,10 +78,10 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 
 void Solution::CreateNeighbor (Client& centralDepot, int method)
 {
-	if (method)
+	//if (method)
 		Solution::MoveRoute(centralDepot);
-	else
-		Solution::InnerSwap();
+	//else
+		//Solution::InnerSwap();
 	
 }//End of function CreateNeighbor
 
@@ -184,6 +184,8 @@ void Solution::MoveRoute(Client& centralDepot)
 	UpdateTotalWeight();	
 	
 }//End of function MoveRoute
+
+
 
 void Solution::InnerSwap ()
 {

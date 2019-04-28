@@ -1,40 +1,38 @@
 #include "LocalSearch.h"
-#define COND_END 9
 
-Solution * runLocalSearch(std::vector<Client> clients, int capacity)
+
+Solution* runLocalSearch(std::vector<Client>& clients, int capacity, int nRepeticoes)
 {
-	Solution * solution = new Solution();
-	Solution * bestSolution = new Solution();
+	Solution* solution = new Solution();
+	Solution* bestSolution = new Solution();
 
 	solution->CreateSolution(clients, capacity);
 	bestSolution = solution;
 
-	for (int i = 0; i < COND_END; i++)
+	int noBestCombo = 0;
+	bool best;
+
+	for (int i = 0; i < nRepeticoes; i++)
 	{
-		Solution newSolution = *solution;
-		std::cout << "Pre Conds.:\n\n";
-		solution->PrintSolution();
+		best = false;
+		Solution* newSolution = solution->Duplicate();
 
-		solution->CreateNeighbor(clients[i]);
-		std::cout << "New Solution:\n\n";
-		newSolution.PrintSolution();
-			
-		std::cout << "Current Solution:\n\n";
-		
-		solution->PrintSolution();
+		newSolution->CreateNeighbor(clients[0], i%2);
 	
-		if (newSolution.totalWeight - solution->totalWeight > 0)
+		if (newSolution->totalWeight - solution->totalWeight < 0)
 		{
-			solution = &newSolution;
+			solution = newSolution;
 
-			if (newSolution.totalWeight < bestSolution->totalWeight)
+			if (newSolution->totalWeight < bestSolution->totalWeight)
 			{
-				bestSolution = &newSolution;
+				bestSolution = newSolution;
+				best = true;
+				noBestCombo = 0;
 			}
 		}
+		if (!best)
+			noBestCombo ++;
 	}
-	int oi;
-	std::cin >> oi;
 	return bestSolution;
 }
 

@@ -8,6 +8,7 @@
 #include "Solution.h"
 #include "DataArray.h"
 #include "SimulatedAnnealing.h"
+#include "LocalSearch.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ int main ()
 	DataArray * dataArray = new DataArray();
 
 	dataArray->ReadFile(clients, capacity, nTrucks, "text.txt");
-	srand(3);
+	srand(2);
 	/*
 	std::vector<Client> aux;
 	for(int i = 0 ; i < 25; i++)
@@ -36,11 +37,12 @@ int main ()
 	
 	clock_t t;
 	t = clock();
-	Solution* simulated = SimulatedAnnealing(clients, capacity, 1000, 1000, 0.4);
+	//Solution* local = SimulatedAnnealing(clients, capacity, 5000, 1000, 0.4);
+	Solution* local = runLocalSearch(clients, capacity, 50000);
 	t = clock() - t;
 
 	float time = (float)t/CLOCKS_PER_SEC;
-	simulated->PrintSolution();
+	local->PrintSolution();
 	printf("Tick: %d - Time: %3.5f s\n",t,time);
 	
 	return 0;
