@@ -1,42 +1,73 @@
 #include "LocalSearch.h"
-#define COND_END 9
+#define COND_END 200
 
-Solution * runLocalSearch(std::vector<Client> clients, int capacity)
+// calcula quem tem a maior pontuacao entre os sucessores de currentSol 
+
+int EvalsValue(Solution * currentSol, int n)
 {
-	Solution * solution = new Solution();
-	Solution * bestSolution = new Solution();
+	int score = 0;
+	int i;
+	int minimalCost = 99999;
 
-	solution->CreateSolution(clients, capacity);
-	bestSolution = solution;
+	for (i = n; i < currentSol->solution.size(); i++)
+	{
+		if (currentSol->totalWeight < minimalCost)
+		{
+			std::cout << currentSol->totalWeight << " OOI";
+			minimalCost = currentSol->totalWeight;
+			score = i;
+		}
+
+	}
+	return score;
+}
+
+
+Solution * hillClimber(std::vector<Client>& clients, int capacity)
+{
+	Solution * currentSolution = new Solution();
+	Solution * bestSolution = new Solution();
+		
+	bestSolution->CreateSolution(clients, capacity);
+	
+	currentSolution->CreateSolution(clients, capacity);
+
+		
+	
+		
+	Solution* newSolution = currentSolution->Duplicate(); // era new Solution(), mas estava bugando, mudei para bestSolution 
 
 	for (int i = 0; i < COND_END; i++)
 	{
-		Solution newSolution = *solution;
-		std::cout << "Pre Conds.:\n\n";
-		solution->PrintSolution();
+		//currentSolution->CreateNeighbor(clients[0]);
+		newSolution->CreateNeighbor(clients[0]);
 
-		solution->CreateNeighbor(clients[i]);
-		std::cout << "New Solution:\n\n";
-		newSolution.PrintSolution();
-			
-		std::cout << "Current Solution:\n\n";
+
+		int next = EvalsValue(currentSolution, i);
+
+		bestSolution->CreateNeighbor(clients[next]);
 		
-		solution->PrintSolution();
-	
-		if (newSolution.totalWeight - solution->totalWeight > 0)
+		if (bestSolution->totalWeight >= newSolution->totalWeight)
 		{
-			solution = &newSolution;
-
-			if (newSolution.totalWeight < bestSolution->totalWeight)
-			{
-				bestSolution = &newSolution;
-			}
+			bestSolution = newSolution;
+			
+			//bestSolution->solution[i].routeArray = currentSolution->solution[i].routeArray;
+			break;
 		}
+		newSolution = bestSolution;
+		//currentSolution->CreateNeighbor(clients[i]);
 	}
-	int oi;
-	std::cin >> oi;
+	
 	return bestSolution;
 }
 
 
+// Guarda o custo necessario para se chegar no no corrente, cuidando do passado
+int StoresCost(std::vector<Client>& alreadyVisited, int capacity)
+{
+	Solution * solution = new Solution();
+	solution->CreateSolution(alreadyVisited, capacity);
+	int alreadyVisitedClientsCost = solution->totalWeight;
 
+	return alreadyVisitedClientsCost;
+}

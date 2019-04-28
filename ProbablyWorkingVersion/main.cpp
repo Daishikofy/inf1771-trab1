@@ -25,7 +25,6 @@ int main ()
 	{
 		aux.push_back(clients[i]);
 	}
-
 	Solution* solaux = new Solution();
 	solaux->CreateSolution(aux, 100);
 	solaux->PrintSolution();
@@ -35,15 +34,29 @@ int main ()
 	*/
 	
 	clock_t t;
+	// t = clock();
+	// Solution* simulated = SimulatedAnnealing(clients, capacity, 1000, 1000, 0.4);
+	// t = clock() - t;
+
+	// float time = (float)t/CLOCKS_PER_SEC;
+	// simulated->PrintSolution();
+	// printf("Tick: %d - Time: %3.5f s\n",t,time);
+	
 	t = clock();
-	Solution* simulated = SimulatedAnnealing(clients, capacity, 1000, 1000, 0.4);
+
+	Solution * localSearch = hillClimber(clients, capacity);
+	
 	t = clock() - t;
 
-	float time = (float)t/CLOCKS_PER_SEC;
-	simulated->PrintSolution();
-	printf("Tick: %d - Time: %3.5f s\n",t,time);
+	time = (float)t / CLOCKS_PER_SEC;
 	
+		
+	localSearch->PrintSolution();
+	
+	printf("Tick: %d - Time: %3.5f\n", t, time);
+	
+	int oi;
+	std::cin >> oi;
+
 	return 0;
 }
-
-
