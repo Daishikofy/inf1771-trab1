@@ -5,7 +5,7 @@
 
 Solution * HillClimbing(std::vector<Client>& clients, int capacity, int nNeighbors)
 {
-	int method = 0;
+	int method = 1;
 	
 	//Criar uma solução corrente
 	Solution* currentSolution = new Solution();
