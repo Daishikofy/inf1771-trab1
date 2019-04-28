@@ -3,6 +3,7 @@
 #include <iostream>
 #include <time.h>
 #include <stdio.h>
+#include <cstring>
 
 #include "Route.h"
 #include "Solution.h"
@@ -12,13 +13,20 @@
 
 using namespace std;
 
-int main ()
+int main (int argc, char * argv[])
 {
+	if (argc != 3)
+	{
+		std::cout << "Uso: ./executavel <arquivoDeInstancias.txt> <heuristica> \nOnde heuristica pode ser SA (Simulated Annealing) ou HC (Hill Climbing)\n\n";
+
+		return 0;
+	}
 	std::vector<Client> clients;
 	int capacity, nTrucks;
 	DataArray * dataArray = new DataArray();
-	dataArray->ReadFile(clients, capacity, nTrucks, "text.txt");
+	dataArray->ReadFile(clients, capacity, nTrucks, argv[1]);
 
+	Solution * answer = new Solution();
 
 	clock_t t;
 
@@ -34,36 +42,56 @@ int main ()
 
 	while(choice2 == 's')
 	{
-		/*Parte a comentar caso for testar a busca local*/
-		/*std::cout << "\nTemperature: ";
-		std::cin >> temp;
-		std::cout << "Cooling Factor ]0,1[ : ";
-		std::cin >> a;
-		std::cout << "COND_END (Repetitions with no improvment): ";
-		std::cin >> condEnd;
-		*/
-		/*Parte a descomentar caso for testar a busca local*/
+		if (strcmp(argv[2], "SA" ) == 0)
+		{
+			std::cout << "\nTemperature: ";
+			std::cin >> temp;
+			std::cout << "Cooling Factor ]0,1[ : ";
+			std::cin >> a;
+			std::cout << "COND_END (Repetitions with no improvment): ";
+			std::cin >> condEnd;
+			t = clock();
+
+			Solution* solution = SimulatedAnnealing(clients, capacity, temp, condEnd, a);
+			
+			t = clock() - t;
+
+			float time = (float)t / CLOCKS_PER_SEC;
+
+
+			std::cout << "\nDistancia total: " << solution->totalWeight << " km\n";
+			printf("Tick: %d - Time: %3.5f s\n", t, time);
+
+			answer = solution;
+		}
 		
-		std::cout << "\nNumber of solutions to explore: ";
-		std::cin >> size;
-		
+		else if (strcmp(argv[2], "HC") == 0)
+		{
+			std::cout << "\nNumber of solutions to explore: ";
+			
+			std::cin >> size;
 
+			t = clock();
 
-		t = clock();
-		//Solution* solution = SimulatedAnnealing(clients, capacity, temp, condEnd, a);
-		Solution* solution = HillClimbing(clients, capacity, size);
-		t = clock() - t;
+			Solution* solution = HillClimbing(clients, capacity, size);
+			
+			t = clock() - t;
 
-		float time = (float)t/CLOCKS_PER_SEC;
-		std::cout << "\nDistancia total: " << solution->totalWeight << " km\n";
-		printf("Tick: %d - Time: %3.5f s\n",t,time);
+			float time = (float)t / CLOCKS_PER_SEC;
+	
+			std::cout << "\nDistancia total: " << solution->totalWeight << " km\n";
+			
+			printf("Tick: %d - Time: %3.5f s\n", t, time);
+			
+			answer = solution;
+		}	
 
 		char choice1;
 		std::cout << "\nDeseja imprimir a solucao? (s/n): ";
 		std::cin >> choice1;
 
 		if (choice1 == 's')
-			solution->PrintSolution();
+			answer->PrintSolution();
 
 		std::cout << "Deseja testar com outros parametros? (s/n): ";
 		std::cin >> choice2;
