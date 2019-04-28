@@ -5,4 +5,6 @@
 #include <vector>
 #include <iostream>
 
-Solution * runLocalSearch(std::vector<Client>& clients, int capacity, int nRepeticoes);
+int EvalsValue(Solution * currentSol, int n);
+
+Solution * hillClimber(std::vector<Client>& clients, int capacity, int nRepeticoes);
