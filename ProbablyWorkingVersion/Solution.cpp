@@ -78,10 +78,10 @@ bool Solution::TestAllRoutes(Client& client, int capacity)
 
 void Solution::CreateNeighbor (Client& centralDepot, int method)
 {
-	//if (method)
+	if (method)
 		Solution::MoveRoute(centralDepot);
-	//else
-		//Solution::InnerSwap();
+	else
+		Solution::InnerSwap();
 	
 }//End of function CreateNeighbor
 
@@ -131,7 +131,7 @@ void Solution::PrintSolution ()
 		std::cout << "\nCAMION N " << n << " - " << solution[i].routeArray->GetTotalWeight() << " km\n";
 		solution[i].routeArray->PrintRoute();
 	}
-	std::cout << "Distancia total: " << totalWeight << " km\n";
+
 }// End of function PrintSolution
 
 

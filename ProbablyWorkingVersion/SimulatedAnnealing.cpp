@@ -46,6 +46,8 @@ Solution* SimulatedAnnealing (std::vector<Client>& clients, int capacity, int co
 		   float pBoltzman = exp((float) diffWeight/ temperature);
 		   if (pBoltzman <= (float) rand()/RAND_MAX) 	   
 			   solution = newSolution;  
+		   else
+			   delete newSolution;
 		}
 		temperature = coolingFactor * temperature;
 	  }

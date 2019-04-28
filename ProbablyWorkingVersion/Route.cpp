@@ -62,6 +62,8 @@ void RouteArray::SwapRoute (int indexA, int indexB)
 
 	RouteArray::UpdateSurroundWeight(indexA);
 	RouteArray::UpdateSurroundWeight(indexB);	
+
+	RouteArray::UpdateTotalWeight();
 }//End of function SwapRoute
 
 void RouteArray::UpdateSurroundWeight(int index)
